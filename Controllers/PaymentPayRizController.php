@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\DB;
 class PaymentPayRizController extends Controller
 {
     protected $PayRequestUrl = 'https://my.payriz.ir/?a=payment.payRequest';
-    protected $merchant_id = '7204379'; // کدپذیرنده
-    protected $terminal_key = '8285C33D-3013-404B-88DA-94DCB7F35212'; // کلید تراکنش
+    protected $merchant_id = 'xxxxxxxx'; // کدپذیرنده
+    protected $terminal_key = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx1'; // کلید تراکنش
     public $Amount = 0;
     public $OrderId = 0;
     public $OptionalData = [];
@@ -125,10 +125,8 @@ class PaymentPayRizController extends Controller
             }
             $Token = $response->Token;
             $url = "https://my.payriz.ir/?a=payment.purchase&Token=$Token";
-//             return redirect ($url);
             header("Location: {$url}");
             exit;
-//            echo $url;
         }
         else{
             $responseMassaged = $this->PayRizError ($response->ErrorCode);
@@ -141,7 +139,6 @@ class PaymentPayRizController extends Controller
                ]);
         }
     }
-    /////
     public function Verify(){
         $key = $this->terminal_key;
         // 1 - Receive Data
@@ -156,7 +153,6 @@ class PaymentPayRizController extends Controller
         $response = json_decode($RequestToPayRiz);
 
         if( $ResCode == 0 ) {
-            // dd ([$response , \request ()]);
             if( $response->Status == 1) {
                 $values = ['Status' => $response->Status , 'Amount' => $response->Amount ,'SystemTraceNo' =>
                 $response->SystemTraceNo , 'RetrivalRefNo' => $response->RetrivalRefNo ];
